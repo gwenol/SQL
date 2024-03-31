@@ -1,0 +1,44 @@
+select 
+	company_name,
+    industry, 
+    revenue,
+    employees,
+    avg_employee_tenure,
+    CASE
+    WHEN avg_employee_tenure > 5 THEN 'long term company'
+    WHEN avg_employee_tenure <=5 THEN 'short term company'
+END AS 'company sonority'
+From fortune_companies;
+
+
+SELECT
+ CASE
+    WHEN avg_employee_tenure > 5 THEN 'long term company'
+    WHEN avg_employee_tenure <=5 THEN 'short term company'
+END AS company_sonority,
+SUM(employees) as total_employees
+from fortune_companies
+group by 
+case
+   WHEN avg_employee_tenure > 5 THEN 'long term company'
+   WHEN avg_employee_tenure <=5 THEN 'short term company'
+END;
+
+select AVG(revenue) as avg_rev, industry, SUM(revenue) AS total_rev
+from fortune_companies
+group by industry
+having SUM(revenue)>1000;
+
+select company_name,paid_time_off_days
+from fortune_companies
+where healthcare_benefits =1 AND paid_time_off_days >10;
+
+
+Select 
+	company_name,
+    sum(revenue) as total_revenue,
+    sum(employees) as total_employees,
+    sum(revenue)/sum(employees) employee_revenue
+from fortune_companies
+group by company_name
+order by sum(revenue)/sum(employees) desc;
